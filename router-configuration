@@ -12,8 +12,8 @@ interface GigabitEthernet0/0
 
 
 
-
 #Configure VLAN 10 Subinterface
+#adding .10 - indicates the vlan
 
 interface GigabitEthernet0/0.10
 encapsulation dot1Q 10
