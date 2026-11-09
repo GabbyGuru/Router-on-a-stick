@@ -1,0 +1,79 @@
+router confirfuraton 
+router interface - connected to switch trunk port 
+
+
+enable
+configure terminal
+interface GigabitEthernet0/0
+ no shutdown
+ exit
+#interface always has to be "no shutdown" even when not in use
+#Ensure the physical interface is up (no IP address needed on the main interface)
+
+
+
+
+#Configure VLAN 10 Subinterface
+
+interface GigabitEthernet0/0.10
+encapsulation dot1Q 10
+ip address 192.168.10.1 255.255.255.0
+ exit
+
+
+#Configure VLAN 20 Subinterface
+
+interface GigabitEthernet0/0.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ exit
+
+
+
+#comfirm that all interfaces are up or down as needed
+
+Router#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+GigabitEthernet0/0     unassigned      YES unset  up                    up 
+GigabitEthernet0/0.10  192.168.10.1    YES manual up                    up 
+GigabitEthernet0/1     unassigned      YES unset  up                    up 
+GigabitEthernet0/1.20  192.168.20.1    YES manual up                    up 
+Vlan1                  unassigned      YES unset  administratively down down
+
+
+
+
+#show running-config is the copy of the running configturation currently on the router. Here is a glimpse.
+
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.20
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+!
+ip flow-export version 9
