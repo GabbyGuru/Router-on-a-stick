@@ -1,0 +1,57 @@
+#switch confirguration 
+#creating VLANs- configure the the ports connnecting to the router as 802.1Q trunk ports
+#configure ports as accesss ports to end devices 
+
+
+#Configure the port connecting to the router as a trunk
+
+interface Gigabit0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20
+ no shutdown
+exit
+
+#do the same for the second switch
+
+
+Switch1#show vlan brief
+#shows what vlan is being used on a certain port 
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Fa0/4, Fa0/5, Fa0/6, Fa0/7
+                                                Fa0/8, Fa0/9, Fa0/10, Fa0/11
+                                                Fa0/12, Fa0/13, Fa0/14, Fa0/15
+                                                Fa0/16, Fa0/17, Fa0/18, Fa0/19
+                                                Fa0/20, Fa0/21, Fa0/22, Fa0/23
+                                                Fa0/24, Gig0/2
+10   VLAN0010                         active    Fa0/1, Fa0/2, Fa0/3
+1002 fddi-default                     active    
+1003 token-ring-default               active    
+1004 fddinet-default                  active    
+1005 trnet-default                    active    
+
+
+Switch1#show interfaces trunk
+# shows what vlan are being allowed and active - ensure both vlans are permitted accross trunk ports 
+Port        Mode         Encapsulation  Status        Native vlan
+Gig0/1      on           802.1q         trunking      1
+
+Port        Vlans allowed on trunk
+Gig0/1      10,20
+
+Port        Vlans allowed and active in management domain
+Gig0/1      10
+
+Port        Vlans in spanning tree forwarding state and not pruned
+Gig0/1      10
+
+
+
+#Assign access ports to end devices (Example for PC ports)
+interface FastEthernet<>
+ switchport mode access
+ switchport access vlan 10
+ no shutdown
+exit
+
+#repeat for all end points - change vlan if needed 
